@@ -31,7 +31,8 @@ class SimpleAppUpgradeWidget extends StatefulWidget {
       this.onCancel,
       this.onOk,
       this.downloadProgress,
-      this.downloadStatusChange});
+      this.downloadStatusChange,
+      @required this.downLoadLocalPath});
 
   ///
   /// 升级标题
@@ -118,13 +119,14 @@ class SimpleAppUpgradeWidget extends StatefulWidget {
   final VoidCallback onOk;
   final DownloadProgressCallback downloadProgress;
   final DownloadStatusChangeCallback downloadStatusChange;
+  final String downLoadLocalPath;
 
   @override
   State<StatefulWidget> createState() => _SimpleAppUpgradeWidget();
 }
 
 class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
-  static final String _downloadApkName = 'temp.apk';
+  // static final String _downloadApkName = 'temp.apk';
 
   ///
   /// 下载进度
@@ -315,8 +317,8 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
       FlutterUpgrade.toMarket(appMarketInfo: widget.appMarketInfo);
       return;
     }
-    String path = await FlutterUpgrade.apkDownloadPath;
-    _downloadApk(widget.downloadUrl, '$path/$_downloadApkName');
+    // String path = await FlutterUpgrade.apkDownloadPath;
+    _downloadApk(widget.downloadUrl, '${widget.downLoadLocalPath}');
   }
 
   ///
@@ -351,7 +353,7 @@ class _SimpleAppUpgradeWidget extends State<SimpleAppUpgradeWidget> {
     } catch (e) {
       print('$e');
       _downloadProgress = 0;
-      _updateDownloadStatus(DownloadStatus.error,error: e);
+      _updateDownloadStatus(DownloadStatus.error, error: e);
     }
   }
 
